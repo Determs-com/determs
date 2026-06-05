@@ -1,0 +1,66 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Determs — the replay & proof engine for automated decisions",
+  description = "Determs turns any automated decision into a verifiable, replayable record — checked with maths and public infrastructure, never a vendor's word. AI agents are the first profile.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#121212" />
+    <meta name="color-scheme" content="dark" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/geist-sans.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/geist-mono.woff2" as="font" type="font/woff2" crossorigin />
+  </head>
+  <body>
+    <slot />
+    <script is:inline>
+      // Subtle nav border once scrolled. Content is always visible.
+      (function () {
+        var nav = document.getElementById("nav");
+        if (nav) {
+          var onScroll = function () {
+            nav.classList.toggle("scrolled", window.scrollY > 8);
+          };
+          onScroll();
+          window.addEventListener("scroll", onScroll, { passive: true });
+        }
+
+        // For the curious who open the console — a record of their visit.
+        try {
+          var tag = "background:#7af2a1;color:#04160c;font-weight:700;padding:2px 8px;border-radius:4px";
+          var mono = "color:#7af2a1;font-family:ui-monospace,monospace;font-size:12px";
+          console.log("%c determs ", tag);
+          console.log(
+            "%cThis page is itself a verifiable decision record.\n" +
+              "Every automated decision → a capsule + a stable receipt. Replay it. Verify it. Prove it.\n\n" +
+              "  vdr_version    0\n" +
+              "  profile        web.page.view\n" +
+              "  record_digest  this one's on us — go build your own\n\n" +
+              "open standard · open-core · github.com/determs-com",
+            mono
+          );
+        } catch (e) {}
+      })();
+    </script>
+  </body>
+</html>

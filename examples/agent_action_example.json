@@ -1,0 +1,65 @@
+{
+  "agent_id": "support-triage-agent",
+  "action_id": "act-2026-05-19-001",
+  "occurred_at_unix_ms": "1747700000000",
+  "model": {
+    "provider": "anthropic",
+    "name": "claude-3-5-sonnet",
+    "version": "20250101"
+  },
+  "params": {
+    "temperature": 0.0,
+    "max_tokens": 512
+  },
+  "input": {
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are a triage agent for an e-commerce support team. Route requests to the right team."
+      },
+      {
+        "role": "user",
+        "content": "Hi, my order #1234 hasn't shipped yet and I need it before Friday."
+      }
+    ],
+    "tools": [
+      {
+        "name": "route_to_team",
+        "description": "Route the conversation to a named team",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "team": { "type": "string" },
+            "reason": { "type": "string" }
+          },
+          "required": ["team"]
+        }
+      }
+    ]
+  },
+  "output": {
+    "content": "I'll route this to our shipping team to investigate the delay on order #1234.",
+    "tool_calls": [
+      {
+        "name": "route_to_team",
+        "arguments": {
+          "team": "shipping",
+          "reason": "order_not_shipped_with_deadline"
+        }
+      }
+    ],
+    "finish_reason": "tool_use",
+    "usage": {
+      "input_tokens": 184,
+      "output_tokens": 73
+    }
+  },
+  "context": {
+    "trace_id": "trace-2026-05-19-abc123",
+    "session_id": "sess-99",
+    "labels": {
+      "channel": "web_chat",
+      "tier": "free"
+    }
+  }
+}

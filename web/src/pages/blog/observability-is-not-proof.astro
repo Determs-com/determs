@@ -1,0 +1,123 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Observability shows you what happened. It can't prove it. — Determs"
+  description="Langfuse, Helicone, Arize answer 'what is my agent doing?' — not 'can you prove what it did?'. Why LLM observability is not an audit layer, and what a verifiable decision record adds."
+>
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="/">
+        <span class="logo-mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg></span>determs
+      </a>
+      <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/#how">How it works</a>
+        <a href="/blog/">Blog</a>
+        <a class="nav-gh" href="https://github.com/determs-com" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg width="19" height="19" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        </a>
+        <span class="nav-tag">open standard · open-core</span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="article">
+    <header class="article-head">
+      <p class="crumbs"><a href="/">determs</a> / <a href="/blog/">blog</a></p>
+      <h1>Observability shows you what happened. It can't prove it.</h1>
+      <p class="subtitle">Langfuse, Helicone, Arize answer "what is my agent doing?" — not "can you prove what it did?"</p>
+      <p class="meta">June 2026 · ~6 min read</p>
+    </header>
+
+    <article class="article-body">
+      <p>
+        If you run AI agents in production, you almost certainly have
+        observability. Langfuse, Helicone, Arize Phoenix, LangSmith, Datadog's
+        LLM module — you have traces, token counts, latencies, dashboards. You
+        can open any request and see what happened. These are good tools, doing
+        a real job well.
+      </p>
+      <p>
+        Then a different kind of question arrives. A customer disputes a denied
+        refund. An auditor asks you to show what the agent decided, and on what
+        basis, six months ago. A regulator wants the record of a specific
+        automated decision — one they can check themselves. And your
+        observability stack, for all its detail, has no answer. It can show you.
+        It cannot prove anything.
+      </p>
+
+      <h2>Two different questions.</h2>
+      <p>
+        Observability answers <em>"what is happening?"</em> Its whole design —
+        traces, spans, sampling, aggregation — is built to monitor a fleet: the
+        p99 latency, the error rate, the cost curve, the regression in
+        aggregate. That is genuinely hard and genuinely useful.
+      </p>
+      <p>
+        Audit answers a different question: <em>"can you prove what happened?"</em>
+        Not describe it — prove it, to someone who has no reason to take your
+        word. That is not a dashboard feature. It is a different primitive.
+      </p>
+
+      <h2>Three things a trace can't do.</h2>
+      <p>Hold a single agent decision up against what an auditor, a counterparty, or a court actually needs:</p>
+      <ul>
+        <li><strong>Reproduce it.</strong> Given the same recorded inputs, can you re-run that exact decision and get the same result, byte for byte? A trace records that something happened; it does not let you replay it.</li>
+        <li><strong>Show it wasn't altered.</strong> The trace lives in a system you control, in mutable storage. Nothing in it proves it hasn't been edited or back-dated since. "Our logs say so" is a claim, not evidence.</li>
+        <li><strong>Let someone verify it without trusting you.</strong> To check a trace, a third party has to trust your platform and your vendor. The whole point of an audit is that they shouldn't have to.</li>
+      </ul>
+
+      <div class="pull">
+        <p>
+          Observability tells you what your agents are doing in aggregate. It
+          can't account for any single one of them to someone who doesn't trust
+          you.
+        </p>
+      </div>
+
+      <h2>It's a different shape, not a missing checkbox.</h2>
+      <p>
+        You can't bolt proof onto a tracing tool without it becoming a different
+        product. Observability's data model is the <em>trace</em>; its
+        primitives are spans and metrics; its workload is aggregation. A
+        verifiable audit layer has the opposite shape: its data model is the
+        <em>record</em> of one decision, its primitives are canonical hashes and
+        anchors, its workload is capture, verify, replay. Same raw inputs — your
+        agent's calls — but a different machine.
+      </p>
+      <p>
+        That machine is a <a href="https://github.com/determs-com" target="_blank" rel="noopener">Verifiable
+        Decision Record</a>: each decision becomes a portable, canonical object
+        with a cryptographic receipt. Recompute its digest and a single altered
+        byte is exposed. Anchor that digest to public infrastructure and its
+        existence in time is provable. Hand it to anyone and they can verify it
+        with maths alone — no account on your platform, no trust in your vendor,
+        none in us. Only the digest is ever published; the payload never leaves
+        your environment.
+      </p>
+
+      <h2>Use both.</h2>
+      <p>
+        This is not "replace your observability." Keep it — it answers the
+        question it was built for. Determs sits underneath, for the decisions
+        that carry consequences: the ones you'll one day need to reproduce,
+        prove unaltered, and hand to someone who doesn't trust you. Observability
+        is for watching the fleet. A verifiable record is for accounting for the
+        single decision that ends up in a dispute.
+      </p>
+      <p>
+        It is an open standard with a reference implementation you can use today:
+        wrap your client, capture a record, <a href="/#verify">verify one
+        yourself</a>. If you've ever been asked to prove what an agent did and had
+        only a dashboard to point at, that's the gap this fills.
+      </p>
+    </article>
+
+    <footer class="article-foot">
+      <span>determs · open standard for verifiable automated decisions</span>
+      <a href="/blog/logs-are-not-proofs/" class="plain">Related: Logs are not proofs →</a>
+    </footer>
+  </main>
+</BaseLayout>

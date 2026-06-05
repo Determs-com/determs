@@ -1,0 +1,28 @@
+# Build artifacts
+/target/
+/.bundles/
+/web/node_modules/
+/web/dist/
+/web/.astro/
+/.venv/
+**/__pycache__/
+*.egg-info/
+/sdk/python/build/
+/sdk/python/dist/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+.archives
+
+# Secrets — NEVER commit (publishing tokens, etc.)
+.env
+.env.*
+.pypirc
+*.token

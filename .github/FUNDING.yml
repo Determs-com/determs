@@ -1,0 +1,4 @@
+# Shows the "Sponsor" button on the repo once GitHub Sponsors is enabled.
+# Org-level Sponsors keeps the project identity (swap to a username for personal).
+github: [determs-com]
+# polar: determs   # add when the Polar (merchant-of-record) offering goes live

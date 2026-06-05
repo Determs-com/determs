@@ -1,0 +1,38 @@
+# Determs — deterministic replay & proof engine for verifiable automated decisions.
+
+[package]
+name = "determs"
+version = "0.1.0"
+edition = "2021"
+authors = ["Determs Contributors"]
+description = "Deterministic replay & proof engine for verifiable automated decisions — capture, verify, and replay records anyone can check. AI agents are the first profile."
+license = "Apache-2.0"
+readme = "README.md"
+homepage = "https://determs.com"
+repository = "https://github.com/determs-com/determs"
+keywords = ["verifiable", "audit", "replay", "provenance", "compliance"]
+categories = ["command-line-utilities", "cryptography", "development-tools"]
+# Publish ONLY the engine + the data it needs + license/readme.
+# Keeps internal files (commercial/, HANDOFF, ROADMAP, web/, sdk/, …) OUT of the
+# published crate — the repo root has no allowlist otherwise.
+include = [
+    "src/**/*.rs",
+    "Cargo.toml",
+    "README.md",
+    "LICENSE",
+    "NOTICE",
+    "docs/spec/test-vectors/**",
+]
+
+[dependencies]
+
+[[bin]]
+name = "determs"
+path = "src/main.rs"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true

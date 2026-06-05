@@ -1,0 +1,198 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="The EU AI Act wants logs you can prove — Determs"
+  description="Articles 12 and 19 of the EU AI Act require high-risk AI systems to keep and retain logs. A log you hold yourself is not evidence. How a Verifiable Decision Record maps to the Act's record-keeping duties."
+>
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="/">
+        <span class="logo-mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg></span>determs
+      </a>
+      <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/#how">How it works</a>
+        <a class="nav-gh" href="https://github.com/determs-com" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg width="19" height="19" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        </a>
+        <span class="nav-tag">open standard · open-core</span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="article">
+    <header class="article-head">
+      <p class="crumbs"><a href="/">determs</a> / <a href="/blog/">blog</a></p>
+      <h1>The EU AI Act wants logs you can prove.</h1>
+      <p class="subtitle">Articles 12 and 19 — and why a log you hold yourself is not evidence.</p>
+      <p class="meta">June 2026 · ~8 min read</p>
+    </header>
+
+    <article class="article-body">
+      <p>
+        The EU AI Act is in force. For high-risk AI systems it does something
+        most teams have not priced in: it makes the <em>record</em> of what the
+        system did a legal artefact, not an operational nicety. You must be able
+        to produce logs of what happened — and keep them.
+      </p>
+      <p>
+        Almost everyone reads that as "turn on logging and set a retention
+        policy." That clears the letter of the requirement for now. It does not
+        survive the first incident, audit, or dispute — because a log you keep
+        yourself is not evidence.
+      </p>
+
+      <h2>What the Act actually asks for.</h2>
+      <p>
+        Three obligations matter for the record itself.
+      </p>
+      <ul>
+        <li>
+          <strong>Article 12 — record-keeping.</strong> High-risk AI systems
+          must <em>technically allow for the automatic recording of events
+          (logs) over the lifetime of the system</em>, sufficient to identify
+          risk situations and support post-market monitoring.
+        </li>
+        <li>
+          <strong>Article 19 — retention.</strong> Providers must keep those
+          automatically generated logs for a period appropriate to the purpose,
+          <em>at least six months</em>, unless other law says longer.
+        </li>
+        <li>
+          <strong>Article 50 — transparency.</strong> AI-generated content must
+          be marked in a machine-readable, detectable format.
+        </li>
+      </ul>
+      <p>
+        On timing: under the original schedule the high-risk duties applied from
+        August 2026. A May 2026 simplification ("Omnibus") agreement moves the
+        main stand-alone high-risk (Annex III) deadline to <strong>December
+        2027</strong> — confirm against the Official Journal, as publication was
+        still pending at the time of writing. Article 50 (content marking, August
+        2026) and the GPAI obligations (August 2025) are <em>not</em> delayed.
+        Penalties for the high-risk obligations reach <strong>€15M or 3% of
+        global turnover</strong>. This is not legal advice — but the direction is
+        not ambiguous: regulators are treating automated decisions as auditable
+        artefacts.
+      </p>
+
+      <h2>A log you keep yourself is not evidence.</h2>
+      <p>
+        Here is the gap the Act will expose. The party that made the decision
+        also holds the log. It lives in a database that party controls. It can
+        be edited, re-ordered, or back-dated, and nothing in the log itself says
+        otherwise. To an auditor, a regulator, or a counterparty, that is a
+        claim — not proof.
+      </p>
+      <p>
+        Compliance that rests on "trust our logs" fails the first time someone
+        has a reason not to. What an auditor actually wants is a record they can
+        verify <em>independently</em>: one they can confirm has not been altered,
+        and that demonstrably existed at the time it claims to — without taking
+        the deciding party's word for any of it.
+      </p>
+
+      <div class="pull">
+        <p>
+          "We kept the logs" is a claim. "Here is a record anyone can verify,
+          anchored in time" is evidence.
+        </p>
+      </div>
+
+      <h2>Verifiable Decision Records.</h2>
+      <p>
+        A <a href="https://github.com/determs-com" target="_blank" rel="noopener">Verifiable
+        Decision Record</a> (VDR) is an open, vendor-neutral format for one
+        automated decision, built so that anyone can verify it with only
+        mathematics and public infrastructure — never the reputation of the
+        party that produced it, and never ours. It carries two properties an
+        internal log cannot:
+      </p>
+      <ul>
+        <li>
+          <strong>Integrity.</strong> The record's contents hash to a stable
+          digest. Recompute it and a single altered byte is exposed. This is
+          instant and needs no one's permission.
+        </li>
+        <li>
+          <strong>Existence in time.</strong> That digest can be anchored to
+          public infrastructure, so its existence at a point in time is provable
+          and cannot be back-dated.
+        </li>
+      </ul>
+      <p>
+        And it is private by construction: only the <em>digest</em> is ever
+        published. The decision payload — which often contains personal data or
+        trade secrets — never leaves your environment. That matters, because the
+        AI Act does not arrive alone; the GDPR is still in the room.
+      </p>
+
+      <h2>The mapping.</h2>
+      <p>
+        How the obligations line up with the format:
+      </p>
+
+      <h3>Article 12 — automatic record-keeping</h3>
+      <p>
+        Each decision becomes a structured VDR at the moment it happens. That is
+        precisely the "automatic recording of events" the Act says a high-risk
+        system must technically allow — except the record is portable and
+        self-describing, not trapped in a vendor console.
+      </p>
+
+      <h3>Article 19 — provable retention</h3>
+      <p>
+        Retention is not just storage; it is being able to show a record existed
+        and was unaltered across the retention window. Anchoring the record's
+        digest gives you existence-at-a-time you can <em>prove</em>, not merely
+        assert. A mutable database row, however well backed up, cannot.
+      </p>
+
+      <h3>Article 50 — content marking</h3>
+      <p>
+        The record binds a digest to the output that was produced — a
+        machine-readable handle to "what this system generated," available to
+        support detectable marking rather than bolted on after the fact.
+      </p>
+
+      <h3>Post-market monitoring (Article 72)</h3>
+      <p>
+        When a market-surveillance authority asks for the record behind a
+        decision, you hand over a self-contained artefact they can verify
+        themselves — not an export from a system they would otherwise have to
+        trust.
+      </p>
+
+      <h2>What this is — and is not.</h2>
+      <p>
+        A VDR is the verifiable <em>record</em> layer: the evidence. It is not
+        your whole compliance programme. It will not classify your system, write
+        your risk assessment, or stand in for a data-protection impact
+        assessment. What it does is make the records themselves auditable,
+        tamper-evident, and independently verifiable — the part that is hardest
+        to retrofit and easiest to get caught without.
+      </p>
+      <p>
+        The format is an open standard (draft v0) with a reference implementation
+        you can use today: wrap your client, capture a record, verify it in your
+        own shell. A managed evidence layer for compliance teams sits on the
+        roadmap on top of the same records.
+      </p>
+
+      <p>
+        If you operate AI in production and the words "prove what it did" are
+        starting to appear in your roadmap, the format is open and the
+        implementation is real. <a href="/#verify">Verify a record yourself</a>,
+        read the <a href="https://github.com/determs-com" target="_blank" rel="noopener">spec</a>,
+        or <a href="https://github.com/determs-com/determs/discussions">get in touch</a>.
+      </p>
+    </article>
+
+    <footer class="article-foot">
+      <span>determs · open standard for verifiable automated decisions</span>
+      <a href="/blog/logs-are-not-proofs/" class="plain">Related: Logs are not proofs →</a>
+    </footer>
+  </main>
+</BaseLayout>

@@ -1,0 +1,464 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout>
+  <div class="topbar">
+    <p class="topbar-inner">
+      <span class="topbar-mark" aria-hidden="true">✓</span>
+      <span class="topbar-msg">Determs is open — the spec, engine &amp; SDK for verifiable automated decisions.</span>
+      <a href="https://github.com/determs-com" target="_blank" rel="noopener">Explore on GitHub →</a>
+    </p>
+  </div>
+
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="/">
+        <span class="logo-mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg></span>determs
+      </a>
+      <nav class="nav-links">
+        <a href="#how">How it works</a>
+        <a href="#verify">Verify</a>
+        <a href="/blog/">Blog</a>
+        <a class="nav-gh" href="https://github.com/determs-com" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg width="19" height="19" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        </a>
+        <a class="nav-cta" href="https://github.com/determs-com/determs/discussions" target="_blank" rel="noopener">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow">Verifiable automated decisions</p>
+          <h1>Replay any automated decision. Prove it to anyone.</h1>
+          <p class="hero-sub">
+            Determs turns any automated decision into a record anyone can verify
+            — with maths and public infrastructure, never by trusting a vendor.
+            AI agents are the first profile.
+          </p>
+
+          <div class="hero-actions">
+            <div class="get">
+              <a class="get-go" href="#how">See how it works</a>
+              <div class="get-cmd">
+                <span class="sigil">$</span>pip install determs
+                <button class="get-copy" type="button" data-copy="pip install determs" aria-label="Copy install command"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M6 15H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1"/></svg></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <p class="code-cap">record.json</p>
+          <div class="codeblock">
+            <div class="record">
+              <span class="rk">vdr_version</span><span class="rv">"0"</span>
+              <span class="rk">profile</span><span class="rv">ai.agent.action</span>
+              <span class="rk">record_digest</span>
+              <span class="rv digest">44f2b54990f7df71a16ff603b606225bcf2800004fa107c42950076c4b581fe4</span>
+              <span class="rk">input_digest</span>
+              <span class="rv dim">4341f9a9b0eca82c…cd1afcdd34f4e22</span>
+              <span class="rk">output_digest</span>
+              <span class="rv dim">cf4c761bbbc469ee…4ba0dc14246e9</span>
+            </div>
+            <div class="record-foot">
+              <span class="ok">✓</span> verify — trustless, reproducible by anyone
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROOF STRIP -->
+    <div class="proofstrip-band">
+      <div class="wrap">
+        <div class="proofstrip">
+          <div class="proof"><span class="proof-v">SHA-256</span><span class="proof-k">recompute any digest</span></div>
+          <div class="proof"><span class="proof-v">0 dependencies</span><span class="proof-k">pure-Rust engine, nothing hidden</span></div>
+          <div class="proof"><span class="proof-v">public anchor</span><span class="proof-k">existence provable in time</span></div>
+          <div class="proof"><span class="proof-v">1 command</span><span class="proof-k">verify it yourself</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROBLEM -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head split">
+          <p class="eyebrow">The problem</p>
+          <div class="split-l">
+            <h2 class="section-title">Logs tell you something happened. Receipts let you prove it.</h2>
+            <p class="section-note">
+              Observability tools — Langfuse, Helicone, Phoenix — cover traces and
+              metrics. They do not cover deterministic replay or verifiable
+              receipts. That gap is Determs' lane.
+            </p>
+          </div>
+          <div class="split-r">
+            <p class="q-lead">Your agent did something yesterday at 14:23. Today —</p>
+            <ul class="q-list">
+              <li>can you reproduce it, byte for byte?</li>
+              <li>can you prove to an auditor what it did, and why?</li>
+              <li>can you tell a real regression from noise after a prompt change?</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VERIFY THIS PAGE (mise en abyme — the proof you can run, placed early) -->
+    <section class="section" id="verify">
+      <div class="wrap">
+        <div class="meta-card">
+          <div class="meta-head">
+            <p class="eyebrow">Proof, not promises</p>
+            <h2 class="section-title">This page is a record. Verify it yourself.</h2>
+            <p class="section-lead">
+              We eat our own dog food: this page has a canonical manifest and a
+              published <code>record_digest</code>. Recompute it and check — right
+              here in your browser, or in your shell. Trust no one, us included.
+            </p>
+          </div>
+
+          <div class="meta-grid">
+            <div>
+              <p class="code-cap">page.manifest — the exact bytes hashed</p>
+              <pre class="code" is:raw style="white-space:pre-wrap;word-break:break-word"><code>{"site":"determs.com","standard":"verifiable-decision-record/0","claim":"every automated decision can become a verifiable, replayable record"}</code></pre>
+              <p class="meta-algo">SHA-256 over the canonical bytes · computed locally in your browser via Web Crypto · identical to <code>sha256sum</code>.</p>
+            </div>
+
+            <div class="verify-panel">
+              <div class="verify-result">
+                <div>
+                  <span class="vlbl">published</span>
+                  <span class="digest">33a0bfac250e303a6765456366dd3e8d19709f4adf5b5b8c4541bcca95f2f8b1</span>
+                </div>
+                <div>
+                  <span class="vlbl">computed</span>
+                  <span class="digest" id="verify-computed">— not computed yet —</span>
+                </div>
+              </div>
+              <button class="btn btn-primary" id="verify-btn" type="button" style="margin-top:22px">Verify in your browser →</button>
+              <p class="verify-verdict" id="verify-verdict"></p>
+            </div>
+          </div>
+
+          <p class="meta-foot">Reproduce it anywhere: <code>printf '%s' "$MANIFEST" | sha256sum</code></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS (sticky steps + scrolling artifacts) -->
+    <section class="section" id="how">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">How it works</p>
+          <h2 class="section-title">Capture, verify, replay.</h2>
+          <p class="section-lead">
+            Wrap your LLM client once. Every call becomes a record with a
+            cryptographic receipt — kept wherever you want, the data never has
+            to leave your environment.
+          </p>
+        </div>
+
+        <div class="entrypoints">
+          <div class="entry">
+            <span class="entry-k">SDK · Python</span>
+            <span class="entry-cmd"><span class="sigil">$</span>pip install determs</span>
+            <span class="entry-d">Wrap your LLM client — captures inside your app.</span>
+          </div>
+          <div class="entry">
+            <span class="entry-k">CLI · engine</span>
+            <span class="entry-cmd"><span class="sigil">$</span>cargo install determs</span>
+            <span class="entry-d">The Rust binary — verifies &amp; replays from your shell.</span>
+          </div>
+        </div>
+
+        <div class="how-list">
+          <div class="how-step">
+            <span class="bn">01 — capture</span>
+            <span class="how-step-t">Wrap the client.</span>
+            <span class="how-step-d">One import. Every call produces a structured record and a stable receipt.</span>
+          </div>
+          <div class="how-panel">
+            <p class="code-cap">app.py</p>
+            <pre class="code" is:raw><code><span class="c"># drop-in around the Anthropic SDK</span>
+<span class="k">import</span> anthropic
+<span class="k">from</span> determs.anthropic <span class="k">import</span> wrap
+
+client = wrap(
+    anthropic.Anthropic(),
+    agent_id=<span class="s">"support-triage"</span>,
+    storage=FileStorage(<span class="s">"./records"</span>),
+)
+
+resp = client.messages.create(
+    model=<span class="s">"claude-3-5-sonnet"</span>,
+    messages=[{<span class="s">"role"</span>: <span class="s">"user"</span>,
+               <span class="s">"content"</span>: <span class="s">"Hi"</span>}],
+)
+<span class="c"># → ./records/&lt;action_id&gt;.json</span></code></pre>
+          </div>
+
+          <div class="how-step">
+            <span class="bn">02 — verify</span>
+            <span class="how-step-t">Recompute every digest.</span>
+            <span class="how-step-d">Change one byte of a stored record and the fresh digest diverges — verify exits non-zero.</span>
+          </div>
+          <div class="how-panel">
+            <p class="code-cap">$ determs verify</p>
+            <pre class="code" is:raw><code><span class="c">$ determs verify --record ./record.json</span>
+
+  stored record_digest
+    <span class="digest">44f2b54990f7df71a16ff603b606225bcf2800004fa107c42950076c4b581fe4</span>
+  fresh  record_digest
+    <span class="digest bad">d5f317cb7aed27b299a045c087f48c26ccd6cc92b17449081e782b8994fe12e1</span>
+
+  verdict  <span class="verdict bad">✕ mismatch — record was modified after capture</span>
+  exit 1</code></pre>
+          </div>
+
+          <div class="how-step">
+            <span class="bn">03 — replay</span>
+            <span class="how-step-t">Rebuild from the subject.</span>
+            <span class="how-step-d">Reconstruct the record from its inputs and confirm it is bit-identical to what was captured.</span>
+          </div>
+          <div class="how-panel">
+            <p class="code-cap">$ determs replay</p>
+            <pre class="code" is:raw><code><span class="c">$ determs replay --record ./record.json</span>
+
+  rebuilt from subject — recomputing the receipt
+  record_digest   <span class="digest">44f2b549…81fe4</span>   <span class="ok">✓</span>
+  input_digest    4341f9a9…4f4e22  <span class="ok">✓</span>
+  output_digest   cf4c761b…246e9   <span class="ok">✓</span>
+
+  verdict  <span class="verdict ok">✓ bit-identical — replay reproduces the record</span>
+  exit 0</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY DETERMS — differentiators, confident + scannable -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Why Determs</p>
+          <h2 class="section-title">Verification that belongs to no one.</h2>
+          <p class="section-lead">
+            Tracing tools and governance toolkits keep their own records, in
+            their own systems, signed with their own keys — you verify by
+            trusting them. Determs is the opposite: an open format anyone checks
+            with maths and public infrastructure. No account, no vendor, not
+            even us.
+          </p>
+        </div>
+
+        <div class="why-grid">
+          <div class="why">
+            <p class="why-k"><span class="why-n">01</span>Neutral</p>
+            <p class="why-d">Open spec (CC-BY-4.0) + open-core engine (Apache-2.0), no CLA. Implement it, fork it, or shape v1 — the format answers to no single vendor.</p>
+          </div>
+          <div class="why">
+            <p class="why-k"><span class="why-n">02</span>Trustless</p>
+            <p class="why-d">Checked against public infrastructure, never a vendor's word — ours included. A signature proves <em>who</em>; a public anchor proves <em>what</em> and <em>when</em>.</p>
+          </div>
+          <div class="why">
+            <p class="why-k"><span class="why-n">03</span>Domain-agnostic</p>
+            <p class="why-d">One format for any automated decision — not bound to one ecosystem, one cloud, or one industry. AI agents are simply the first profile.</p>
+          </div>
+          <div class="why">
+            <p class="why-k"><span class="why-n">04</span>Private</p>
+            <p class="why-d">A self-contained record; only the digest is ever published. The decision payload never leaves your environment.</p>
+          </div>
+        </div>
+
+        <div class="isnt">
+          <p><span class="is-k">Determs is</span> a verifiable record format · a deterministic replay &amp; proof engine · a neutral verification primitive.</p>
+          <p><span class="is-k">It is not</span> a tracing or observability tool · a prompt evaluator or LLM gateway · an orchestration framework · a system you must trust.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATUS -->
+    <section class="section compact">
+      <div class="wrap status-grid">
+        <div class="status-head">
+          <p class="eyebrow">Status</p>
+          <h2 class="section-title">Where it stands today.</h2>
+        </div>
+        <div class="statboard">
+          <div class="stat">
+            <p class="stat-k">spec</p>
+            <p class="stat-v">Verifiable Decision Record — draft v0</p>
+          </div>
+          <div class="stat">
+            <p class="stat-k">engine</p>
+            <p class="stat-v">Rust binary — capture · verify · replay</p>
+          </div>
+          <div class="stat">
+            <p class="stat-k">sdk</p>
+            <p class="stat-v">Python — Anthropic &amp; OpenAI · sync / async / streaming</p>
+          </div>
+          <div class="stat">
+            <p class="stat-k">registry</p>
+            <p class="stat-v">neutral index — append-only, publicly anchored</p>
+          </div>
+          <div class="stat">
+            <p class="stat-k">verification</p>
+            <p class="stat-v">trustless — maths + public infra</p>
+          </div>
+          <div class="stat">
+            <p class="stat-k">license</p>
+            <p class="stat-v">Apache-2.0 (code) · CC-BY-4.0 (spec)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WRITING -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Writing</p>
+          <h2 class="section-title">The thinking behind it.</h2>
+        </div>
+        <div class="cards cards-3">
+          <a class="card" href="/blog/agent-governance-needs-proof/">
+            <div class="card-art art-d"></div>
+            <div class="card-body">
+              <p class="card-kicker">Paper · June 2026</p>
+              <p class="card-title">Agent governance prevents. It can't prove.</p>
+              <p class="card-desc">Guardrails stop the bad call. They can't prove, later, what your agent actually did.</p>
+            </div>
+          </a>
+          <a class="card" href="/blog/observability-is-not-proof/">
+            <div class="card-art art-c"></div>
+            <div class="card-body">
+              <p class="card-kicker">Paper · June 2026</p>
+              <p class="card-title">Observability shows you. It can't prove it.</p>
+              <p class="card-desc">Langfuse, Helicone, Arize answer "what's my agent doing?" — not "can you prove what it did?"</p>
+            </div>
+          </a>
+          <a class="card" href="/blog/eu-ai-act-verifiable-logs/">
+            <div class="card-art art-b"></div>
+            <div class="card-body">
+              <p class="card-kicker">Paper · June 2026</p>
+              <p class="card-title">The EU AI Act wants logs you can prove.</p>
+              <p class="card-desc">Articles 12 and 19 — and why a log you hold yourself is not evidence.</p>
+            </div>
+          </a>
+        </div>
+        <div class="contact-actions" style="margin-top:26px">
+          <a class="btn btn-ghost" href="/blog/">All writing →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACTIVATE — final CTA, inverted band to close on momentum -->
+    <section class="activate" id="contact">
+      <div class="wrap">
+        <p class="eyebrow">Get started</p>
+        <h2 class="activate-title">You're one command away.</h2>
+        <p class="activate-sub">
+          Wrap a client, capture a decision, verify it yourself — with maths and
+          public infrastructure, never our word. Open standard, open-core,
+          self-serve. AI agents are the first profile.
+        </p>
+
+        <div class="install-chip">
+          <span class="install-cmd"><span class="sigil">$</span>pip install determs</span>
+          <button class="get-copy" type="button" data-copy="pip install determs" aria-label="Copy install command"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M6 15H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1"/></svg></button>
+        </div>
+
+        <div class="activate-links">
+          <a href="https://github.com/determs-com" target="_blank" rel="noopener">Read the spec →</a>
+          <a href="https://github.com/determs-com" target="_blank" rel="noopener">Shape it on GitHub →</a>
+          <a href="https://github.com/determs-com" target="_blank" rel="noopener">Discuss on GitHub →</a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <div class="wrap foot-bar">
+        <div class="foot-left">
+          <a class="brand" href="/">
+            <span class="logo-mark" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg></span>determs
+          </a>
+        </div>
+        <div class="foot-meta">
+          <span>Open standard for verifiable automated decisions.</span>
+          <span class="foot-copy">© 2026</span>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script is:inline>
+    // Copy the install command (hero + activation chips).
+    (function () {
+      if (!navigator.clipboard) return;
+      document.querySelectorAll(".get-copy").forEach(function (btn) {
+        var orig = btn.innerHTML;
+        btn.addEventListener("click", function () {
+          navigator.clipboard
+            .writeText(btn.getAttribute("data-copy"))
+            .then(function () {
+              btn.classList.add("copied");
+              btn.innerHTML =
+                '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L20 6.5"/></svg>';
+              setTimeout(function () {
+                btn.classList.remove("copied");
+                btn.innerHTML = orig;
+              }, 1400);
+            })
+            .catch(function () {});
+        });
+      });
+    })();
+
+    // Verify-this-page: hash the canonical manifest in-browser (Web Crypto)
+    // and confirm it matches the published record_digest. Honestly
+    // reproducible: printf '%s' '<manifest>' | sha256sum gives the same hex.
+    (function () {
+      var MANIFEST =
+        '{"site":"determs.com","standard":"verifiable-decision-record/0","claim":"every automated decision can become a verifiable, replayable record"}';
+      var EXPECTED = "33a0bfac250e303a6765456366dd3e8d19709f4adf5b5b8c4541bcca95f2f8b1";
+      var btn = document.getElementById("verify-btn");
+      var out = document.getElementById("verify-computed");
+      var verdict = document.getElementById("verify-verdict");
+      if (!btn || !out || !verdict) return;
+      if (!(window.crypto && window.crypto.subtle)) {
+        btn.disabled = true;
+        verdict.textContent = "Web Crypto unavailable here — try over https.";
+        return;
+      }
+      btn.addEventListener("click", async function () {
+        verdict.textContent = "";
+        verdict.className = "verify-verdict";
+        out.textContent = "hashing…";
+        try {
+          var data = new TextEncoder().encode(MANIFEST);
+          var buf = await window.crypto.subtle.digest("SHA-256", data);
+          var hex = Array.from(new Uint8Array(buf))
+            .map(function (b) {
+              return b.toString(16).padStart(2, "0");
+            })
+            .join("");
+          out.textContent = hex;
+          var ok = hex === EXPECTED;
+          verdict.textContent = ok
+            ? "✓ verified — this page is exactly what it claims to be."
+            : "✕ mismatch — something changed.";
+          verdict.className = "verify-verdict " + (ok ? "ok" : "bad");
+        } catch (e) {
+          out.textContent = "error";
+        }
+      });
+    })();
+  </script>
+</BaseLayout>

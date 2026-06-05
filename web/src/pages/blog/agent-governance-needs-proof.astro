@@ -1,0 +1,111 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Agent governance prevents. It can't prove. — Determs"
+  description="Guardrails, policy engines and agent-governance toolkits stop the bad call before it executes. They can't prove, afterwards, what your agent actually did. Prevention and proof are different layers — you need both."
+>
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="/">
+        <span class="logo-mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg></span>determs
+      </a>
+      <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/#how">How it works</a>
+        <a href="/blog/">Blog</a>
+        <a class="nav-gh" href="https://github.com/determs-com" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg width="19" height="19" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        </a>
+        <span class="nav-tag">open standard · open-core</span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="article">
+    <header class="article-head">
+      <p class="crumbs"><a href="/">determs</a> / <a href="/blog/">blog</a></p>
+      <h1>Agent governance prevents. It can't prove.</h1>
+      <p class="subtitle">Guardrails stop the bad call before it happens. They can't show — or prove — what your agent actually did.</p>
+      <p class="meta">June 2026 · ~6 min read</p>
+    </header>
+
+    <article class="article-body">
+      <p>
+        Agent governance is having its moment, and rightly so. Policy engines,
+        zero-trust identity, execution sandboxing, the OWASP Agentic Top 10,
+        toolkits like Microsoft's Agent Governance Toolkit — they intercept an
+        agent's action and decide, before it runs, whether to allow it, deny it,
+        or escalate for approval. A denied action becomes structurally
+        impossible, not merely unlikely. That is real, and you should want it.
+      </p>
+      <p>
+        But prevention has a blind spot, and it's the one that shows up in the
+        room with a regulator, a customer, or opposing counsel.
+      </p>
+
+      <h2>Prevention is one job. Proof is another.</h2>
+      <p>
+        Governance answers a question asked <em>in the moment</em>: should this
+        action be allowed? Afterwards — an incident, an audit, a dispute — the
+        question flips entirely: <em>what did we actually do, and can you prove
+        it?</em> A system built to gate actions going in has nothing to say about
+        proving, months later, what came out.
+      </p>
+
+      <h2>A governance tool's records are its own.</h2>
+      <p>
+        The good ones do keep an audit trail — which policy was active, what the
+        agent requested, whether it was allowed or denied. Useful. But those
+        records live inside the governance system, attested (if at all) with its
+        own keys, in its own ecosystem. To check them, a verifier has to trust
+        that system.
+      </p>
+      <p>
+        And a signature only proves <em>who</em> held a key. It does not prove,
+        to an outsider who trusts no one, <em>what</em> happened and <em>when</em>
+        — that the record is the original, unaltered, and not back-dated. That
+        is a different guarantee, and prevention layers don't provide it.
+      </p>
+
+      <div class="pull">
+        <p>
+          Governance is the lock on the door. A verifiable record is the receipt
+          you can hand a court. They are not the same product, and you need both.
+        </p>
+      </div>
+
+      <h2>Proof is an orthogonal layer.</h2>
+      <p>
+        A <a href="https://github.com/determs-com" target="_blank" rel="noopener">Verifiable
+        Decision Record</a> doesn't decide whether to allow an action. It does the
+        other half: it turns the action that <em>did</em> happen into a portable,
+        canonical record with a cryptographic receipt anyone can recompute, and an
+        anchor anyone can check against public infrastructure. No trust in the
+        producer, in the governance vendor, or in us. Only the digest is ever
+        published — the decision payload never leaves your environment.
+      </p>
+
+      <h2>You need both — and they compose.</h2>
+      <p>
+        Keep your guardrails; they stop the bad call. Emit a verifiable record for
+        the decisions that carry consequences; it settles the dispute that happens
+        anyway. Because the format is an open standard, a governance layer could
+        emit VDRs directly — prevention and proof in one pipeline, neither asking
+        anyone to take a vendor's word.
+      </p>
+      <p>
+        It's open, with a reference implementation you can use today. Wrap your
+        client, capture a record, <a href="/#verify">verify one yourself</a>. If
+        your governance stack can stop an action but couldn't prove, later, what
+        it let through, that's the half this fills.
+      </p>
+    </article>
+
+    <footer class="article-foot">
+      <span>determs · open standard for verifiable automated decisions</span>
+      <a href="/blog/" class="plain">More writing →</a>
+    </footer>
+  </main>
+</BaseLayout>

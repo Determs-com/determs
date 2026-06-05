@@ -1,0 +1,89 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Writing — Determs"
+  description="Notes on verifiable automated decisions: the open standard, the EU AI Act, and why a log you hold yourself is not evidence."
+>
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="/">
+        <span class="logo-mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg></span>determs
+      </a>
+      <nav class="nav-links">
+        <a href="/#how">How it works</a>
+        <a href="/#verify">Verify</a>
+        <a href="/blog/">Blog</a>
+        <a class="nav-gh" href="https://github.com/determs-com" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg width="19" height="19" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        </a>
+        <span class="nav-tag">open standard · open-core</span>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Writing</p>
+          <h1 class="section-title">Notes on verifiable automated decisions.</h1>
+          <p class="section-lead">
+            The open standard, the EU AI Act, and why a log you hold yourself is
+            not evidence.
+          </p>
+        </div>
+        <div class="cards">
+          <a class="card" href="/blog/agent-governance-needs-proof/">
+            <div class="card-art art-d"></div>
+            <div class="card-body">
+              <p class="card-kicker">Paper · June 2026</p>
+              <p class="card-title">Agent governance prevents. It can't prove.</p>
+              <p class="card-desc">Guardrails stop the bad call. They can't prove, later, what your agent actually did.</p>
+            </div>
+          </a>
+          <a class="card" href="/blog/observability-is-not-proof/">
+            <div class="card-art art-c"></div>
+            <div class="card-body">
+              <p class="card-kicker">Paper · June 2026</p>
+              <p class="card-title">Observability shows you. It can't prove it.</p>
+              <p class="card-desc">Langfuse, Helicone, Arize answer "what's my agent doing?" — not "can you prove what it did?"</p>
+            </div>
+          </a>
+          <a class="card" href="/blog/eu-ai-act-verifiable-logs/">
+            <div class="card-art art-b"></div>
+            <div class="card-body">
+              <p class="card-kicker">Paper · June 2026</p>
+              <p class="card-title">The EU AI Act wants logs you can prove.</p>
+              <p class="card-desc">Articles 12 and 19 — and why a log you hold yourself is not evidence.</p>
+            </div>
+          </a>
+          <a class="card" href="/blog/logs-are-not-proofs/">
+            <div class="card-art art-a"></div>
+            <div class="card-body">
+              <p class="card-kicker">Paper · May 2026</p>
+              <p class="card-title">Logs are not proofs.</p>
+              <p class="card-desc">The case for deterministic replay in AI agents.</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <div class="wrap foot-bar">
+        <div class="foot-left">
+          <a class="brand" href="/">
+            <span class="logo-mark" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg></span>determs
+          </a>
+        </div>
+        <div class="foot-meta">
+          <span>Open standard for verifiable automated decisions.</span>
+          <span class="foot-copy">© 2026</span>
+        </div>
+      </div>
+      <span class="bigmark" aria-hidden="true">determs</span>
+    </footer>
+  </main>
+</BaseLayout>

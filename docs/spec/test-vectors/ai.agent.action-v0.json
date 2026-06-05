@@ -1,0 +1,102 @@
+{
+  "spec": "verifiable-decision-record/0",
+  "profile": "ai.agent.action",
+  "description": "Conformance test vectors for VDR v0 (see ../verifiable-decision-record-v0.md, §3-§7). Given `profile` and `subject`, a conforming implementation MUST reproduce every digest in `expected` by hashing the RFC 8785 (JCS) canonical form with SHA-256, lowercase hex: subject_digest = SHA256(JCS(subject)); record_digest = SHA256(JCS({\"vdr_version\":\"0\",\"profile\":profile,\"subject\":subject})); input_digest = SHA256(JCS({\"model\":subject.model,\"params\":subject.params,\"input\":subject.input})) with params = null when absent; output_digest = SHA256(JCS(subject.output)). These are produced by the reference engine and are byte-for-byte reproducible by any RFC 8785 implementation over this value space (ASCII member names, finite decimal numbers).",
+  "vectors": [
+    {
+      "name": "ai.agent.action — minimal",
+      "profile": "ai.agent.action",
+      "subject": {
+        "agent_id": "a",
+        "action_id": "x",
+        "occurred_at_unix_ms": "0",
+        "model": { "provider": "p", "name": "m" },
+        "input": { "messages": [ { "role": "user", "content": "hi" } ] },
+        "output": { "content": "ok" }
+      },
+      "expected": {
+        "alg": "sha-256",
+        "subject_digest": "84d1626c2993b78f419d111f2630cfcc4c58d13bea5f853d9782c09a4e0a0952",
+        "record_digest": "7b458399c5d830ca3f251919a0b9f6bb10a8c2c092741110d0f6e5186308a9e4",
+        "input_digest": "c30884456ec57cbd0d03f46a4ac1114b4a77e23ad5f8d587b61fb325a098e70c",
+        "output_digest": "6c0712dcc1be9aef4932a72f4bf0c2b8448395e43ee8fdffbfee0c1fae5268bb"
+      }
+    },
+    {
+      "name": "ai.agent.action — full (params, tools, tool_calls, usage, context)",
+      "profile": "ai.agent.action",
+      "subject": {
+        "agent_id": "support-triage-agent",
+        "action_id": "act-2026-05-19-001",
+        "occurred_at_unix_ms": "1747700000000",
+        "model": {
+          "provider": "anthropic",
+          "name": "claude-3-5-sonnet",
+          "version": "20250101"
+        },
+        "params": {
+          "temperature": 0.0,
+          "max_tokens": 512
+        },
+        "input": {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You are a triage agent for an e-commerce support team. Route requests to the right team."
+            },
+            {
+              "role": "user",
+              "content": "Hi, my order #1234 hasn't shipped yet and I need it before Friday."
+            }
+          ],
+          "tools": [
+            {
+              "name": "route_to_team",
+              "description": "Route the conversation to a named team",
+              "input_schema": {
+                "type": "object",
+                "properties": {
+                  "team": { "type": "string" },
+                  "reason": { "type": "string" }
+                },
+                "required": ["team"]
+              }
+            }
+          ]
+        },
+        "output": {
+          "content": "I'll route this to our shipping team to investigate the delay on order #1234.",
+          "tool_calls": [
+            {
+              "name": "route_to_team",
+              "arguments": {
+                "team": "shipping",
+                "reason": "order_not_shipped_with_deadline"
+              }
+            }
+          ],
+          "finish_reason": "tool_use",
+          "usage": {
+            "input_tokens": 184,
+            "output_tokens": 73
+          }
+        },
+        "context": {
+          "trace_id": "trace-2026-05-19-abc123",
+          "session_id": "sess-99",
+          "labels": {
+            "channel": "web_chat",
+            "tier": "free"
+          }
+        }
+      },
+      "expected": {
+        "alg": "sha-256",
+        "subject_digest": "caf351ba1a7e41774323602a1cc9d5989d4987157694dc85e9a415ef3383f843",
+        "record_digest": "44f2b54990f7df71a16ff603b606225bcf2800004fa107c42950076c4b581fe4",
+        "input_digest": "4341f9a9b0eca82c63f007f5b89a2c5293d67593fde5a984ecd1afcdd34f4e22",
+        "output_digest": "cf4c761bbbc469ee7ab5464c4517392eaaefcef1e85e8b5c0c24ba0dc14246e9"
+      }
+    }
+  ]
+}

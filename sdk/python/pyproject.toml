@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "determs"
+version = "0.1.0"
+description = "Capture verifiable, replayable records of your AI agent's decisions — the Python SDK for the Verifiable Decision Record standard."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "Apache-2.0" }
+keywords = ["verifiable", "audit", "replay", "ai-agents", "compliance", "provenance"]
+authors = [
+    { name = "Determs" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: Apache Software License",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://determs.com"
+Repository = "https://github.com/determs-com"
+Issues = "https://github.com/determs-com"
+
+[project.optional-dependencies]
+anthropic = ["anthropic>=0.30.0"]
+openai = ["openai>=1.0.0"]
+anchor = ["opentimestamps>=0.4.0"]
+all = ["anthropic>=0.30.0", "openai>=1.0.0", "opentimestamps>=0.4.0"]
+dev = ["pytest>=7.0", "opentimestamps>=0.4.0"]
+
+[tool.setuptools]
+license-files = ["LICENSE"]
+
+[tool.setuptools.packages.find]
+include = ["determs*"]
