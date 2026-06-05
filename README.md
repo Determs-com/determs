@@ -11,9 +11,9 @@ canonical: true
 
 # determs
 
-### Replay any automated decision. Prove it to anyone.
+### Prove any automated decision. To anyone. With maths, not trust.
 
-**Turn any automated decision into a record anyone can verify — with maths and public infrastructure, never by trusting a vendor. Today, that starts with AI agents.**
+**Turn it into a record anyone can check against public infrastructure — never a vendor's word, ours included. Today, that starts with AI agents.**
 
 [![license](https://img.shields.io/badge/code-Apache--2.0-7af2a1?style=flat-square)](LICENSE)
 [![spec](https://img.shields.io/badge/spec-CC--BY--4.0-7af2a1?style=flat-square)](docs/spec/verifiable-decision-record-v0.md)
@@ -42,7 +42,9 @@ give you **replay** or **proof**. That gap is what determs fills.
 ## The idea
 
 Determs is an open standard — the **Verifiable Decision Record** — and the
-deterministic replay & proof engine that implements it.
+neutral engine that implements it: a domain-general way to make any automated
+decision provable to a third party, by maths and public infrastructure rather
+than trust.
 
 A log your own system wrote about itself is not evidence — a counterparty, an
 auditor, or a regulator has no reason to trust it. determs turns each automated
@@ -119,8 +121,9 @@ environment; verification needs no one's permission.
 
 | determs is | determs is not |
 |---|---|
-| a replay & verifiable-audit layer | a tracing/observability tool |
+| a verifiable proof & audit layer | a tracing/observability tool |
 | an open record format (VDR) | a prompt evaluator or LLM gateway |
+| proof by public anchor — *what* and *when* | a signed log you verify by trusting the signer |
 | a neutral verification primitive | an orchestration framework |
 | trustless by construction | a system you have to trust |
 
@@ -206,5 +209,5 @@ out of scope.
 ---
 
 <div align="center">
-<sub>determs — open standard for verifiable AI decisions · <a href="https://determs.com">determs.com</a></sub>
+<sub>determs — open standard for verifiable automated decisions · <a href="https://determs.com">determs.com</a></sub>
 </div>
