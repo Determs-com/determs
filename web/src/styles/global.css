@@ -949,6 +949,14 @@ pre.code {
   color: var(--fg-faint);
 }
 
+.foot-meta a {
+  color: var(--fg-faint);
+  text-decoration: none;
+}
+.foot-meta a:hover {
+  color: var(--fg);
+}
+
 /* ============================================================
    How it works — entry points callout (SDK vs CLI), made to stand out
    ============================================================ */
