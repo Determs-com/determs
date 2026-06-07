@@ -1,0 +1,66 @@
+# Determs
+
+> Determs is the open standard and engine for verifiable automated decisions.
+> Any automated decision — an AI agent action, an algorithmic ruling, a pipeline
+> output — can be captured as a Verifiable Decision Record (VDR): a self-contained
+> artefact that any party can verify against public infrastructure, with mathematics
+> alone, without trusting the party that produced it, and without trusting Determs.
+>
+> AI agents are the first profile. The engine and spec are domain-agnostic.
+
+## Specification and implementation
+
+- [Verifiable Decision Record spec (CC-BY-4.0)](https://github.com/determs-com/determs/blob/main/docs/spec/verifiable-decision-record-v0.md): The open specification. A VDR is a JSON object `{vdr_version, profile, subject, receipt, anchor?}`. The receipt holds SHA-256 digests (record_digest, subject_digest, input_digest, output_digest) computed over RFC 8785 (JCS) canonical forms. The optional anchor commits record_digest to a public append-only log (OpenTimestamps → Bitcoin by default) to make existence-in-time provable without trusting any party.
+- [Python SDK — PyPI](https://pypi.org/project/determs/): `pip install determs`. Wraps Anthropic and OpenAI clients (sync/async/streaming), captures VDRs automatically. `determs[anchor]` adds OpenTimestamps anchoring. `determs.compliance` builds evidence packs for EU AI Act Art. 12/19.
+- [Rust CLI — crates.io](https://crates.io/crates/determs): `cargo install determs`. Commands: verify, replay, capture, list, describe, hash, version. The canonical verification implementation.
+- [GitHub repository](https://github.com/determs-com/determs): Full source, spec, test vectors, examples, conformance suite. Apache-2.0 (code), CC-BY-4.0 (spec). No CLA.
+
+## Key concepts
+
+- **What a VDR proves**: (1) the record's content is unaltered — any change to any field breaks the digest; (2) optionally, the record existed at a specific point in time before the public anchor's block timestamp. A VDR does NOT prove the correctness of the underlying decision, the accuracy of tool outputs, or that the action actually occurred exactly as described. The record is accountable, not correct.
+- **Trustless verification**: the verifier needs only the record JSON, an RFC 8785 (JCS) implementation, SHA-256, and (for anchor verification) read access to public blockchain data. No key, no account, no vendor, no Determs.
+- **Privacy by construction**: only the digest is published to public infrastructure. The decision payload — inputs, outputs, personal data — stays in the producer's environment.
+- **Profiles**: `ai.agent.action` is the first profile. The spec carries pluggable profiles; the engine is domain-agnostic.
+- **Canonicalization**: RFC 8785 (JCS) — keys sorted by Unicode code point, no whitespace, UTF-8. Reusing an IETF standard removes Determs as a source of truth.
+- **EU AI Act fit**: Art. 12 (automatic event recording), Art. 19 (provable ≥6-month retention), Art. 72 (post-market monitoring evidence). An evidence pack (`determs.compliance`) bundles anchored digests for a system+period into a self-verifying audit artefact.
+
+## Quick start
+
+```sh
+pip install "determs[anchor]"
+```
+
+```python
+import anthropic
+from determs.anthropic import wrap as wrap_anthropic
+from determs.storage import FileStorage
+
+client = wrap_anthropic(
+    anthropic.Anthropic(),
+    agent_id="my-agent",
+    storage=FileStorage("./records"),
+)
+response = client.messages.create(
+    model="claude-3-5-sonnet-20241022",
+    max_tokens=512,
+    messages=[{"role": "user", "content": "..."}],
+)
+# Record written to ./records/<action_id>.json
+# Nothing was sent anywhere.
+```
+
+```sh
+determs verify --record ./records/<action_id>.json
+```
+
+## Pages
+
+- [Home](https://determs.com/): Overview, interactive in-browser proof (verify a real record with Web Crypto, no server), quick-start install
+- [Blog index](https://determs.com/blog/): All writing
+- [EU AI Act Article 12 logging — implementation guide](https://determs.com/blog/eu-ai-act-article-12-logging/): Step-by-step: wrap your client, anchor records, build an evidence pack for Art. 12/19 compliance
+- [Tamper-evident is not tamper-proof](https://determs.com/blog/tamper-evident-is-not-tamper-proof/): The gap between signature-based receipts (trust the key-holder) and public-anchor verification (trust the maths) — and what even a trustless anchor doesn't prove
+- [The EU AI Act wants logs you can prove](https://determs.com/blog/eu-ai-act-verifiable-logs/): Articles 12 and 19 mapped to VDRs; why a self-held log is not evidence for an auditor
+- [Observability shows you. It can't prove it.](https://determs.com/blog/observability-is-not-proof/): The gap between what observability tools answer and what an independent verifier needs
+- [Agent governance prevents. It can't prove.](https://determs.com/blog/agent-governance-needs-proof/): Guardrails stop the bad call; they cannot prove, later, what the agent actually did
+- [Logs are not proofs](https://determs.com/blog/logs-are-not-proofs/): The case for deterministic replay in AI agents; the capsule/receipt/replay primitive
+- [Privacy](https://determs.com/privacy/): Data handling — no tracking, server logs only, Swiss FADP

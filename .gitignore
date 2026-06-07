@@ -21,6 +21,9 @@
 Thumbs.db
 .archives
 
+# Public repo clone (nested git — not tracked by this repo)
+/.public-clone/
+
 # Secrets — NEVER commit (publishing tokens, etc.)
 .env
 .env.*

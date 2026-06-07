@@ -1,0 +1,305 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Tamper-evident is not tamper-proof — Determs"
+  description="Many audit systems advertise tamper-evident receipts. Most are not operator-independent: you are still trusting the party that signed the record. What a public anchor adds — and what even that doesn't prove."
+>
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="/">
+        <span class="logo-mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg></span>determs
+      </a>
+      <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/#how">How it works</a>
+        <a class="nav-gh" href="https://github.com/determs-com" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg width="19" height="19" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        </a>
+        <span class="nav-tag">open standard · open-core</span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="article">
+    <header class="article-head">
+      <p class="crumbs"><a href="/">determs</a> / <a href="/blog/">blog</a></p>
+      <h1>Tamper-evident is not tamper-proof.</h1>
+      <p class="subtitle">
+        Many audit systems claim their records cannot be altered. Most are not
+        operator-independent. There is a gap between detecting modification and
+        verifying without trust.
+      </p>
+      <p class="meta">June 2026 · ~8 min read</p>
+    </header>
+
+    <article class="article-body">
+      <p>
+        Ask a team how they would prove what their AI agent did, and many will
+        reach for signatures. Ed25519. HMAC. A hash chain. These are good
+        cryptographic primitives. But they do not prove what most people think
+        they prove.
+      </p>
+      <p>
+        "Tamper-evident" is a precise term that is easy to misread. Understanding
+        where it stops — and where a public anchor begins — is the difference
+        between a record an auditor can verify and a record an auditor must
+        simply believe.
+      </p>
+
+      <h2>What tamper-evident actually means.</h2>
+      <p>
+        A tamper-evident record is one where any modification is detectable after
+        the fact. The mechanism is cryptographic hashing: compute a hash of the
+        record at capture time; later, recompute it. If the hashes match, the
+        record has not changed. If they diverge, it has.
+      </p>
+      <p>
+        This is fast, reliable, and entirely mathematical. It works. And it
+        answers exactly one question: <em>has this record changed since the
+        reference hash was computed?</em>
+      </p>
+      <p>
+        It does not answer the question underneath: <em>who computed the
+        reference hash, when, and can I trust that they did so faithfully at
+        the moment the decision happened?</em>
+      </p>
+
+      <h2>The signature problem.</h2>
+      <p>
+        Most "tamper-evident receipt" systems work like this: the system signs
+        its own records. The party that made the decision holds the signing key.
+        You verify the signature against the public key. If the record and the
+        signature match, the record has not changed since it was signed.
+      </p>
+      <p>
+        But signing and signing-at-the-right-time are different things. The
+        same party that made the decision also held the key. That means they
+        could, in principle:
+      </p>
+      <ul>
+        <li>Construct a record after the fact and sign it with the time they choose</li>
+        <li>Sign a record that omits a step, softens an output, or reframes what the agent did</li>
+        <li>Rotate their key and re-sign an altered historical record</li>
+      </ul>
+      <p>
+        A signature tells you: <em>this record was signed by the holder of
+        this key.</em> It does not tell you: <em>this record was created at
+        the moment the decision happened and faithfully describes it.</em>
+      </p>
+      <p>
+        To an independent auditor — a regulator, a counterparty, an external
+        compliance team — a signature is still a trust claim. "Trust our key
+        infrastructure" is better than "trust our database entry," but it is
+        not fundamentally different in kind. The party that made the decision
+        is still in the trust path.
+      </p>
+      <p>
+        This is the gap between tamper-evident and operator-independent.
+      </p>
+
+      <div class="pull">
+        <p>
+          A signature proves who signed. A public anchor proves when — without
+          trusting the signer.
+        </p>
+      </div>
+
+      <h2>What a public anchor adds.</h2>
+      <p>
+        A public anchor works differently. Instead of asking a key-holder to
+        attest to the record, you commit the record's digest to a public,
+        append-only log — a log that neither you nor any single party can
+        control or rewrite.
+      </p>
+      <p>
+        The mechanism in practice: <strong>OpenTimestamps</strong> takes any
+        SHA-256 digest, aggregates many of them into a Merkle tree, and commits
+        the root to the Bitcoin blockchain. The proof that a specific digest
+        was included in that tree is a compact binary object: an
+        OpenTimestamps proof file. Anyone with that proof file and read access
+        to the public blockchain can verify — independently, offline, without
+        contacting any server — that the digest existed before a specific
+        block's timestamp.
+      </p>
+      <p>
+        What this changes in the trust model:
+      </p>
+      <ul>
+        <li>
+          <strong>No key to trust.</strong> Verification uses only the public
+          blockchain and mathematics. The signer's key infrastructure is not
+          in the path.
+        </li>
+        <li>
+          <strong>No back-dating.</strong> A Bitcoin block's timestamp is backed
+          by proof-of-work — you would need to redo the computational work of
+          the entire network from that block onward to alter it. That is not a
+          practical attack.
+        </li>
+        <li>
+          <strong>No vendor.</strong> Not Determs, not OpenTimestamps, not
+          the calendar operators. The verification depends only on the
+          open-source OTS libraries and the public blockchain, both of which
+          any party can run independently.
+        </li>
+      </ul>
+      <p>
+        A public anchor is the difference between "trust our signature
+        infrastructure" and "check the maths yourself."
+      </p>
+      <p>
+        For compliance purposes, this matters. An auditor who receives a
+        signature-backed record must decide whether to trust the signing
+        party's key management. An auditor who receives an anchor-backed record
+        can verify existence-in-time without trusting anyone — including us.
+      </p>
+
+      <h2>What even a public anchor does not prove.</h2>
+      <p>
+        This is equally important to state clearly.
+      </p>
+      <p>
+        A public anchor proves two things about a record:
+      </p>
+      <ul>
+        <li>
+          <strong>Existence in time:</strong> this exact record (and only this
+          record) existed before the anchor's block timestamp. Its digest was
+          committed to public infrastructure at that moment.
+        </li>
+        <li>
+          <strong>Integrity:</strong> the record has not been changed since
+          that commitment. Any modification would break the digest.
+        </li>
+      </ul>
+      <p>
+        What it does not prove:
+      </p>
+      <ul>
+        <li>
+          That the action described in the record actually occurred as described
+        </li>
+        <li>
+          That the tool outputs recorded in the subject field are accurate — the
+          producer wrote those values; the anchor commits to what the producer
+          wrote, not to the underlying reality
+        </li>
+        <li>
+          That the decision was the correct or compliant one
+        </li>
+        <li>
+          That the producer did not lie in constructing the record before
+          anchoring it
+        </li>
+      </ul>
+      <p>
+        The honest framing is: the record is <strong>accountable</strong>,
+        not correct. Accountable means the producer is locked into a specific
+        claim. If they stated the model returned X, and the record is anchored,
+        they cannot later claim the model returned Y. The anchor creates
+        accountability for the stated record. It does not validate the
+        underlying reality against which the record was written.
+      </p>
+      <p>
+        This is not a limitation of the approach — it is an honest description
+        of what cryptographic timestamping can and cannot do. And it turns out
+        that accountability is precisely what auditors and regulators are
+        looking for: not a guarantee that the AI made the right call, but
+        a commitment to what it claimed to have done. That is the layer where
+        an audit starts.
+      </p>
+
+      <div class="pull">
+        <p>
+          The record is accountable, not correct. Accountability is exactly
+          what an audit needs.
+        </p>
+      </div>
+
+      <h2>The layered picture.</h2>
+      <p>
+        These distinctions map cleanly onto a layered architecture:
+      </p>
+      <ul>
+        <li>
+          <strong>A runtime receipt</strong> — the immediate capture of what
+          happened, at the moment it happened. Deterministic digests. No
+          network required.
+        </li>
+        <li>
+          <strong>An integrity envelope</strong> — the hash chain or signature
+          that lets you verify the receipt has not changed. This is the
+          tamper-evident layer.
+        </li>
+        <li>
+          <strong>A public anchor</strong> (optional) — existence-in-time
+          committed to public infrastructure. This is the operator-independent
+          layer. No key in the trust path.
+        </li>
+        <li>
+          <strong>A deterministic archive</strong> — stored, addressable
+          records with the ability to replay the record and verify the digests
+          on demand.
+        </li>
+      </ul>
+      <p>
+        Most systems implement the first two layers. The public anchor is the
+        layer that makes the record independently verifiable — and the layer
+        that most current AI audit systems skip or treat as optional.
+      </p>
+
+      <h2>How Determs implements this.</h2>
+      <p>
+        A <a href="https://github.com/determs-com/determs/blob/main/docs/spec/verifiable-decision-record-v0.md" target="_blank" rel="noopener">Verifiable Decision Record</a>
+        carries all four layers in a single self-contained JSON object. The
+        receipt holds the four digests (record, subject, input, output) computed
+        by canonicalizing the record per RFC 8785 (JCS) and hashing with
+        SHA-256. The anchor is pluggable — the spec supports any append-only
+        public log as an anchor type; the current default is OpenTimestamps.
+      </p>
+      <p>
+        Verification is a single CLI command:
+      </p>
+      <pre class="code" is:raw><code>$ determs verify --record ./record.json
+
+{
+  "verified": true,
+  "profile": "ai.agent.action",
+  "record_digest": "44f2b549...",
+  "checks": {
+    "subject_digest": true,
+    "record_digest": true,
+    "input_digest": true,
+    "output_digest": true
+  }
+}</code></pre>
+      <p>
+        The verifier does not need an account with us, a running service, or
+        trust in our key infrastructure. The spec is open (CC-BY-4.0), the
+        reference implementation is open-source (Apache-2.0), and the anchor
+        resolves against public infrastructure.
+      </p>
+      <p>
+        If you have AI decisions in production that need to be auditable — for
+        a regulator, a counterparty, or your own incident response — the
+        distinction between tamper-evident and operator-independent is not
+        academic. It is the difference between a record that stands up in a
+        dispute and one that only holds until someone has a reason to question
+        it.
+      </p>
+      <p>
+        <a href="/#verify">Verify a record yourself</a>, read the
+        <a href="https://github.com/determs-com/determs/blob/main/docs/spec/verifiable-decision-record-v0.md" target="_blank" rel="noopener">spec</a>,
+        or <a href="/blog/eu-ai-act-article-12-logging/">see the implementation guide</a>
+        for a step-by-step walkthrough with working code.
+      </p>
+    </article>
+
+    <footer class="article-foot">
+      <span>determs · open standard for verifiable automated decisions</span>
+      <a href="/blog/eu-ai-act-article-12-logging/" class="plain">Related: EU AI Act Article 12 logging — implementation guide →</a>
+    </footer>
+  </main>
+</BaseLayout>

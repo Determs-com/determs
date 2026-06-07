@@ -1,0 +1,344 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="EU AI Act Article 12 logging: an implementation guide — Determs"
+  description="Article 12 of the EU AI Act requires high-risk AI systems to automatically record events. This guide shows what that means technically and how to implement it with verifiable, provably-retained records — with working Python code."
+>
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="/">
+        <span class="logo-mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg></span>determs
+      </a>
+      <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/#how">How it works</a>
+        <a class="nav-gh" href="https://github.com/determs-com" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg width="19" height="19" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        </a>
+        <span class="nav-tag">open standard · open-core</span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="article">
+    <header class="article-head">
+      <p class="crumbs"><a href="/">determs</a> / <a href="/blog/">blog</a></p>
+      <h1>EU AI Act Article 12 logging: an implementation guide.</h1>
+      <p class="subtitle">
+        What "automatically generated logs" means technically, why the obvious
+        implementation falls short, and how to produce records an auditor can
+        actually verify.
+      </p>
+      <p class="meta">June 2026 · ~12 min read</p>
+    </header>
+
+    <article class="article-body">
+      <p>
+        Article 12 of the EU AI Act requires high-risk AI systems to
+        "technically allow for the automatic recording of events (logs) over
+        the lifetime of the system." Most teams read this and enable logging.
+        That may satisfy the letter of the obligation today.
+      </p>
+      <p>
+        It will not survive the first audit.
+      </p>
+      <p>
+        A log you hold in your own database is mutable. You can alter, delete,
+        or back-date any row in it — and nothing in the log itself would show
+        that you did. A market-surveillance authority, an external auditor, or
+        a counterparty in a dispute has no way to verify the log's integrity
+        independently. At best, they can ask you to confirm it. That is not
+        evidence. That is your word.
+      </p>
+      <p>
+        This guide shows the implementation gap and how to close it: from
+        mutable logs to verifiable records, with working Python code.
+      </p>
+
+      <h2>What Articles 12 and 19 actually require.</h2>
+      <p>
+        Three obligations apply to the record itself.
+      </p>
+      <ul>
+        <li>
+          <strong>Article 12 — automatic event recording.</strong> High-risk AI
+          systems must technically allow for the <em>automatic</em> recording of
+          events over the lifetime of the system, sufficient to identify risk
+          situations and support post-market monitoring. The word "automatic"
+          matters: these are machine-generated records of what the system did,
+          not manual entries after the fact.
+        </li>
+        <li>
+          <strong>Article 19 — retention of automatically generated logs.</strong>
+          Providers must retain those logs for at least six months. The
+          retention must be provable — not merely asserted. Backups in a
+          mutable store prove nothing about whether the records are original.
+        </li>
+        <li>
+          <strong>Article 72 — post-market monitoring.</strong> When a
+          market-surveillance authority or notified body asks for the records
+          behind a decision, you need to produce a self-contained artefact they
+          can verify without asking you to confirm anything.
+        </li>
+      </ul>
+      <p>
+        On timing: the main high-risk obligations (Annex III stand-alone) were
+        moved to December 2027 by the May 2026 Omnibus agreement — confirm
+        against the Official Journal, as publication was pending at the time of
+        writing. The content-marking obligations (Article 50, August 2026) and
+        GPAI obligations (August 2025) are not delayed. Penalties for the
+        high-risk record-keeping obligations reach <strong>€15M or 3% of
+        global turnover</strong>.
+      </p>
+      <p>
+        For a broader reading of how the Act treats decision records, see
+        <a href="/blog/eu-ai-act-verifiable-logs/">The EU AI Act wants logs
+        you can prove</a>.
+      </p>
+
+      <h2>The implementation gap.</h2>
+      <p>
+        The gap has two parts.
+      </p>
+      <p>
+        <strong>Integrity.</strong> A row in a relational database, a line in a
+        log file, or an event in an observability system can be modified after
+        the fact. Nothing in the record prevents this. A verifiable record
+        computes a cryptographic digest of its contents at capture time; any
+        subsequent modification breaks the digest. This is instant and requires
+        no authority to check.
+      </p>
+      <p>
+        <strong>Existence in time.</strong> Even an immutable record is only as
+        trustworthy as the party holding it, unless its existence at a specific
+        time is committed to public infrastructure that the holding party cannot
+        control. An anchor commits the record's digest to a public append-only
+        log; its timestamp becomes a mathematical fact, checkable by any
+        independent party with no account and no trust in the record's producer.
+      </p>
+      <p>
+        A database row gives you neither. A hash chain gives you integrity but
+        not operator-independent existence in time. A public anchor gives you
+        both.
+      </p>
+      <p>
+        For the distinction in detail, see
+        <a href="/blog/tamper-evident-is-not-tamper-proof/">Tamper-evident is
+        not tamper-proof</a>.
+      </p>
+
+      <h2>Step 1 — install.</h2>
+      <pre class="code" is:raw><code>pip install "determs[anchor]"</code></pre>
+      <p>
+        The base package captures and verifies records locally. The
+        <code>[anchor]</code> extra adds OpenTimestamps for public anchoring.
+        Nothing else is required; no account, no API key.
+      </p>
+
+      <h2>Step 2 — wrap your LLM client.</h2>
+      <p>
+        Drop the wrapper around your existing Anthropic or OpenAI client. Every
+        call then produces a structured record automatically — no change to the
+        rest of your code.
+      </p>
+      <pre class="code" is:raw><code><span class="kw">import</span> anthropic
+<span class="kw">from</span> determs.anthropic <span class="kw">import</span> wrap <span class="kw">as</span> wrap_anthropic
+<span class="kw">from</span> determs.storage <span class="kw">import</span> FileStorage
+
+client = wrap_anthropic(
+    anthropic.Anthropic(),
+    agent_id=<span class="str">"credit-risk-model"</span>,   <span class="comment"># stable identifier for this AI system</span>
+    storage=FileStorage(<span class="str">"./records"</span>),
+)
+
+<span class="comment"># Use exactly as before.</span>
+response = client.messages.create(
+    model=<span class="str">"claude-3-5-sonnet-20241022"</span>,
+    max_tokens=<span class="num">512</span>,
+    messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Review application #A-20411..."</span>}],
+)
+<span class="comment"># A record was written to ./records/&lt;action_id&gt;.json.
+# Nothing was sent to a remote service. Everything stays local.</span></code></pre>
+      <p>
+        The record is plain JSON. It carries the agent identifier, model name,
+        the full input, the model response, and four SHA-256 digests computed
+        over RFC 8785 canonical forms: <code>subject_digest</code>,
+        <code>record_digest</code>, <code>input_digest</code>, and
+        <code>output_digest</code>. You can store it in S3, Postgres, a file
+        archive, or hand it to a compliance team on a USB key.
+      </p>
+
+      <h2>Step 3 — verify a record.</h2>
+      <p>
+        At any point — now, in six months, in a dispute — any party with the
+        record and the CLI can verify it:
+      </p>
+      <pre class="code" is:raw><code>$ determs verify --record ./records/&lt;action_id&gt;.json
+
+{
+  "verified": true,
+  "profile": "ai.agent.action",
+  "record_digest": "44f2b54990f7df71a16ff603b606225bcf2800004fa107c42950076c4b581fe4",
+  "checks": {
+    "subject_digest": true,
+    "record_digest": true,
+    "input_digest": true,
+    "output_digest": true
+  }
+}</code></pre>
+      <p>
+        If any byte of the record has been modified since capture — a content
+        string, a tool argument, a timestamp — the digests diverge and
+        <code>verify</code> exits non-zero. No quiet corruption. No authority
+        required to run the check.
+      </p>
+
+      <h2>Step 4 — anchor records before the retention window.</h2>
+      <p>
+        Anchoring commits each record's digest to public infrastructure.
+        Only the digest is transmitted — the decision payload (inputs, outputs,
+        any personal data) never leaves your environment.
+      </p>
+      <pre class="code" is:raw><code><span class="kw">import</span> json, glob
+<span class="kw">from</span> determs.anchor <span class="kw">import</span> anchor_record
+
+<span class="comment"># Anchor any un-anchored records.</span>
+<span class="kw">for</span> path <span class="kw">in</span> glob.glob(<span class="str">"./records/*.json"</span>):
+    vdr = json.load(open(path))
+    <span class="kw">if not</span> vdr.get(<span class="str">"anchor"</span>):
+        vdr = anchor_record(vdr)          <span class="comment"># network call — submits digest to OpenTimestamps</span>
+        json.dump(vdr, open(path, <span class="str">"w"</span>), indent=<span class="num">2</span>)</code></pre>
+      <p>
+        OpenTimestamps returns a <em>pending</em> proof immediately. The proof
+        is upgraded to <em>complete</em> — including a Bitcoin block reference —
+        within a few hours, once the aggregate Merkle root is committed to the
+        chain. You can run <code>determs verify</code> again after ~2 hours to
+        confirm the upgrade.
+      </p>
+      <p>
+        Anchor records as close to capture time as practical. Article 19's
+        retention window requires that the records' existence in time be
+        provable across the period; the anchor's block timestamp establishes
+        that provably.
+      </p>
+
+      <h2>Step 5 — build an evidence pack for the compliance window.</h2>
+      <p>
+        At audit time — or proactively at each reporting period — bundle the
+        anchored records for a system and period into a self-verifying evidence
+        pack. Only digests and anchors enter the pack; the decision payloads
+        stay in your environment.
+      </p>
+      <pre class="code" is:raw><code><span class="kw">import</span> json, glob
+<span class="kw">from</span> determs.registry <span class="kw">import</span> entry_from_vdr
+<span class="kw">from</span> determs.compliance <span class="kw">import</span> build_evidence_pack
+
+<span class="comment"># Load all anchored records for this system and period.</span>
+records = [json.load(open(f)) <span class="kw">for</span> f <span class="kw">in</span> glob.glob(<span class="str">"./records/*.json"</span>)]
+entries = [entry_from_vdr(r) <span class="kw">for</span> r <span class="kw">in</span> records <span class="kw">if</span> r.get(<span class="str">"anchor"</span>)]
+
+pack = build_evidence_pack(
+    entries,
+    system=<span class="str">"credit-risk-model"</span>,
+    period_from=<span class="str">"2026-01-01T00:00:00Z"</span>,
+    period_to=<span class="str">"2026-06-30T23:59:59Z"</span>,   <span class="comment"># ≥ 6 months, per Art. 19</span>
+)
+
+json.dump(pack, open(<span class="str">"./evidence-pack-H1-2026.json"</span>, <span class="str">"w"</span>), indent=<span class="num">2</span>)</code></pre>
+      <p>
+        The pack is a self-contained JSON artefact. An auditor verifies it with:
+      </p>
+      <pre class="code" is:raw><code><span class="kw">from</span> determs.compliance <span class="kw">import</span> verify_evidence_pack
+<span class="kw">import</span> json
+
+pack = json.load(open(<span class="str">"./evidence-pack-H1-2026.json"</span>))
+report = verify_evidence_pack(pack)
+<span class="comment"># report["pack_digest_ok"]  — membership integrity check
+# report["anchors"]         — per-record anchor status against public infra</span></code></pre>
+      <p>
+        No account with Determs is required. No running service. The proof
+        resolves against public infrastructure.
+      </p>
+
+      <h2>The mapping.</h2>
+      <p>
+        How each obligation lines up with what this implementation provides:
+      </p>
+      <ul>
+        <li>
+          <strong>Art. 12 — automatic event recording.</strong> Each model call
+          produces a structured VDR at the moment it happens. No human step.
+          The record is machine-generated and self-describing.
+        </li>
+        <li>
+          <strong>Art. 12 — sufficient for risk identification.</strong> The VDR
+          carries the agent identifier, model name and version, full input
+          digest, full output digest, and a timestamp. The subject field is
+          retained locally; its digest is in the record for independent
+          verification.
+        </li>
+        <li>
+          <strong>Art. 19 — retain logs ≥ 6 months.</strong> Anchoring commits
+          existence-in-time to public infrastructure. The anchor's block
+          timestamp is independently provable across the retention window,
+          not merely asserted.
+        </li>
+        <li>
+          <strong>Art. 72 — post-market monitoring.</strong> The evidence pack
+          is a portable, self-verifying artefact. An authority can verify it
+          independently with open-source tooling and public infrastructure —
+          no access to your systems required.
+        </li>
+        <li>
+          <strong>GDPR co-constraint.</strong> Only the digest is published to
+          public infrastructure. The decision payload — inputs, outputs, any
+          personal data — stays in your environment.
+        </li>
+      </ul>
+
+      <h2>What this is — and what it isn't.</h2>
+      <p>
+        This is the evidence layer: verifiable, provably-retained records of
+        what your AI system did. It is not a complete compliance programme.
+        It will not classify your system under Annex III, write your risk
+        assessment, or stand in for a DPIA.
+      </p>
+      <p>
+        It is also honest about its own scope: an anchor proves a record existed
+        at time T and is unaltered. It does not prove the underlying decision
+        was correct, or that the action described in the record actually occurred
+        exactly as described. The record is <em>accountable</em>, not correct —
+        meaning the producer is locked into a specific claim. That accountability
+        is what an audit needs; correctness validation is a separate layer,
+        yours to address with testing, human review, and your compliance
+        programme.
+      </p>
+      <p>
+        For the distinction between tamper-evident and operator-independent
+        verification, see
+        <a href="/blog/tamper-evident-is-not-tamper-proof/">Tamper-evident is
+        not tamper-proof</a>. For the conceptual background on why a log you
+        hold yourself is not evidence, see
+        <a href="/blog/eu-ai-act-verifiable-logs/">The EU AI Act wants logs you
+        can prove</a>.
+      </p>
+      <p>
+        If you operate a high-risk AI system and are working through what
+        Article 12 requires in practice, the format is open (CC-BY-4.0), the
+        implementation is real, and you can
+        <a href="/#verify">verify a record yourself</a> in the browser before
+        writing a line of code. Read the
+        <a href="https://github.com/determs-com/determs/blob/main/docs/spec/verifiable-decision-record-v0.md" target="_blank" rel="noopener">spec</a>
+        or <a href="https://github.com/determs-com/determs/discussions" target="_blank" rel="noopener">open a discussion</a>
+        if you have implementation questions.
+      </p>
+    </article>
+
+    <footer class="article-foot">
+      <span>determs · open standard for verifiable automated decisions</span>
+      <a href="/blog/tamper-evident-is-not-tamper-proof/" class="plain">Related: Tamper-evident is not tamper-proof →</a>
+    </footer>
+  </main>
+</BaseLayout>
